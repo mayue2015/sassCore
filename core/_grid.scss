@@ -16,8 +16,8 @@
 // 如果将gridColumnWidth设置为60px，就是盛名的960网格系统
 //----------------------------------------------------- 
 $gridColumns:                     12 !default;      // Total number of columns
-$gridColumnWidth:                 65px !default;   // Width of a single column
-$gridGutter:                      20px !default;     // Width of the gutter
+$gridColumnWidth:                 70px !default;   // Width of a single column
+$gridGutter:                      30px !default;     // Width of the gutter
 $gridSystemWidth:                 $gridColumns * ($gridColumnWidth + $gridGutter); //grid system width
 
 
@@ -34,7 +34,7 @@ $gridGutterPercent:               percentage($gridGutter / $gridSystemWidth) !de
 
 // ie6/7 fluid layout bug: http://tylertate.com/blog/2012/01/05/subpixel-rounding.html
 // ie6/7  getWidth($i, true, $correction)
-$gridMinWidth:                    1000 !default;
+$gridMinWidth:                    1170 !default;
 $gridCorrection:                  0.5 / $gridMinWidth * 100 * 1%;
 
 
@@ -89,10 +89,12 @@ $gridSpanSwitch:                  false !default;
 
 // span or column's gutter
 %margin-gutter{
-  margin-right: $gridMarginValue;
+  margin-left: $gridMarginValue / 2;
+  margin-right: $gridMarginValue / 2;
 
   @if $gridPercentSwitch and $lte7{
-    *margin-right: $gridMarginValue - $gridCorrection;
+    *margin-left: ($gridMarginValue - $gridCorrection) / 2;
+    *margin-right: ($gridMarginValue - $gridCorrection) / 2;
   }
 }
 
@@ -161,8 +163,12 @@ $gridSpanSwitch:                  false !default;
 // span的class循环输出，通过变量$gridSpanSwitch来控制是否输出
 //-----------------------------------------------------  
 @if $gridSpanSwitch {
+  .g-grid{
+    @include wrapper($gridColumns,true);
+  }
+
   @for $i from 1 through $gridColumns {
-    .span#{$i} { 
+    .g-col-#{$i} { 
       @extend %float;
       @extend %margin-gutter;
       
